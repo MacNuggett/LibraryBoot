@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Посетитель</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        p {
+            color: #008000;
+            margin-top: 10px;
+            font-size: 20px; /* Увеличенный размер шрифта для полей name и age */
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #008000;
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        div th:switch {
+            margin-top: 20px;
+        }
+
+        h4 {
+            color: #008000;
+        }
+
+        div th:each {
+            margin-top: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: 2px solid #008000;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #008000;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #e0e0e0;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container input[type="submit"] {
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 10px; /* Добавлено отступ справа между кнопками */
+            padding: 10px 20px;
+            border: 2px solid #008000;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #008000;
+            font-size: 14px; /* Уменьшенный размер шрифта для кнопок Удалить, Редактировать и Вернуться */
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container input[type="submit"]:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+<p th:text="${'Имя: '+person.getName()}">name</p>
+<p th:text="${'Возраст: '+person.getAge()}">age</p>
+<hr/>
+<div th:switch="${books.size()}">
+    <p th:case="0">Пользователь пока не взял ни одной книги</p>
+    <div th:case="*">
+        <h4>Книги:</h4>
+        <div th:style="${book.getOverDated()}? 'color:red':'color:#008000'" th:each="book: ${books}">
+            <a th:style="${book.getOverDated()}? 'color:red':'color:#008000'" th:text="${book.getTitle()+', '+book.getYear()}" th:href = "@{/books/{id}(id=${book.getId()})}">book</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div class="button-container">
+    <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+        <input type="submit" value="Редактировать"/>
+    </form>
+    <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+        <input type="submit" value="Удалить"/>
+    </form>
+</div>
+</body>
+</html>
+
+
+

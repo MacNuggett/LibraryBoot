@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Книги</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    div th:each {
+      margin-top: 10px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: 2px solid #008000;
+      border-radius: 5px;
+      background-color: #ffffff;
+      color: #008000;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #e0e0e0;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #008000;
+      margin: 20px auto;
+      width: 80%;
+    }
+  </style>
+</head>
+<body>
+<div th:each="book: ${books}">
+  <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getTitle()+', '+book.getYear()}">user</a>
+</div>
+<br/>
+<hr/>
+
+<a href="/books/new">Добавить книгу </a>
+<a href="/books/search?message=введите текст"> Найти книгу</a>
+<br/>
+<hr/>
+<a href="/welcome">На главную</a>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        p {
+            color: #008000;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px;
+            border: 2px solid #008000;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #008000;
+        }
+
+        input[type="submit"] {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 20px;
+            border: 2px solid #008000;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #008000;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e0e0e0;
+        }
+
+        div th:switch {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<form th:method="GET" th:action="@{/books/search}">
+    <p>Введите поисковой запрос:</p>
+    <input type="text" name="message" th:value="${message}" />
+    <input type="submit" value="Искать"/>
+</form>
+<div th:switch="${book}">
+    <p th:case="null">Ничего не найдено</p>
+    <form th:case="*" th:text="${book.getTitle()+', '+book.getYear()}"></form>
+    <div th:switch="${book.getOwner()}">
+        <form th:case="null" th:text="${'Книга свободна'}"></form>
+        <form th:case="*" th:text="${'Книгу забрал(а) '+book.getOwner().getName()}"></form>
+    </div>
+</div>
+<br/>
+<a href="/books">Вернуться</a>
+</body>
+</html>

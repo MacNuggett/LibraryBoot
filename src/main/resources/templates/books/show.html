@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Книга</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    p {
+      color: #008000;
+      margin-top: 10px;
+      font-size: 20px; /* Увеличенный размер шрифта для полей названия, автора и года публикации */
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #008000;
+      margin: 20px auto;
+      width: 80%;
+    }
+
+    div th:switch {
+      margin-top: 20px;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #008000;
+    }
+
+    select {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px;
+      border: 2px solid #008000;
+      border-radius: 5px;
+      background-color: #ffffff;
+      color: #008000;
+    }
+
+    input[type="submit"] {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 20px;
+      border: 2px solid #008000;
+      border-radius: 5px;
+      background-color: #ffffff;
+      color: #008000;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #e0e0e0;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: 2px solid #008000;
+      border-radius: 5px;
+      background-color: #ffffff;
+      color: #008000;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+<p th:text="${'Название: '+book.getTitle()}">name</p>
+<p th:text="${'Автор: '+book.getAuthor()}">author</p>
+<p th:text="${'Год публикации: '+book.getYear()}">year</p>
+
+<hr/>
+<div th:switch="${oneperson}">
+  <form th:case="null" th:method="POST" th:action="@{/books/{id}(id=${book.getId()})}">
+    <p>Эта книга свободна. Кому назначить ее?</p>
+    <label for="person">Выберите человека:</label>
+    <select th:object="${person}" th:field="*{id}" id="person">
+      <option th:each="person: ${people}" th:value="${person.getId()}"
+              th:text="${person.getName()}"></option>
+    </select>
+    <input type="submit" value="Назначить"/>
+  </form>
+  <form th:case="*" th:method="DELETE" th:action="@{/books/{id}/delete_person(id=${book.getId()})}">
+    <p>Книгу взял(а): </p>
+    <p th:text="${oneperson.getName()}"></p>
+    <input type="submit" value="Освободить книгу"/>
+  </form>
+</div>
+<hr/>
+
+<form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
+  <input type="submit" value="Редактировать"/>
+</form>
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+  <input type="submit" value="Удалить"/>
+</form>
+
+</body>
+</html>
